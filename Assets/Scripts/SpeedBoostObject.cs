@@ -5,10 +5,12 @@ using UnityEngine;
 public class SpeedBoostObject : MonoBehaviour
 {
     public int speed;   //speed of the object
+    private GameController controller;
 
     // Start is called before the first frame update
     void Start()
     {
+        controller = GameObject.Find("GameController").GetComponent<GameController>();
         speed = Random.Range(7,15);
     }
 
@@ -16,8 +18,10 @@ public class SpeedBoostObject : MonoBehaviour
     void Update()
     {
         //move object down the screen
-        transform.Translate(Vector3.down * Time.deltaTime * speed);
-
+        if (controller.gameOver == false)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * speed);
+        }
         //check to see if it has reached the bottom of the screen
         if(transform.position.y < -20)
         {

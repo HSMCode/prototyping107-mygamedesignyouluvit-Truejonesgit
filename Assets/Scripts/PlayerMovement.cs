@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private float speed;
-    private Rigidbody rb;
+    private Rigidbody2D rb;
     public float halfPlayerWidth;
     Vector2 screenSize;
+
+    private Animation anim;
 
     private float boostTimer;   //timer for the speedboost 
     private bool boosting;      //to ensure whether the player is currently boosting or not
@@ -19,7 +21,9 @@ public class PlayerMovement : MonoBehaviour
         halfPlayerWidth = transform.localScale.x / -2;
         screenSize = new Vector2(Camera.main.aspect * Camera.main.orthographicSize + halfPlayerWidth, Camera.main.orthographicSize);
 
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
+
+        anim = gameObject.GetComponent<Animation>();
 
         //set normal speed of the ship/player
         speed = 10f;
@@ -69,6 +73,10 @@ public class PlayerMovement : MonoBehaviour
         {
             boosting = true;
             speed = 20f;
+        }
+        else if (!other.CompareTag ("SpeedBoost"))
+        {
+            anim.Play("hit");
         }
     }
 }

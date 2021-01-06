@@ -6,27 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject hazard;
+    public GameObject[] meteors; //make array and instantiate different rockmodels
     public Vector3 spawnValues;
     public int hazardCount;
     public float spawnWait;
     public float startWait;
     public float waveWait;
 
-    public Text restartText;
-    public Text gameOverText;
+    public GameObject gameOverText;
     public Text scoreText;
 
     private bool restart;
-    private bool gameOver;
+    public bool gameOver;
     public int score;
 
     private void Start()
     { // Set score to '0', hide Game Over and Restart texts
         gameOver = false;
         restart = false;
-        restartText.text = "";
-        gameOverText.text = "";
+        
        score = 0;
        UpdateScore();
        StartCoroutine (SpawnWaves());
@@ -54,7 +52,7 @@ public class GameController : MonoBehaviour
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
-                Instantiate(hazard, spawnPosition, spawnRotation);
+                Instantiate(meteors[Random.Range(0, meteors.Length)], spawnPosition, spawnRotation);
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);
@@ -80,8 +78,8 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
-        gameOverText.text = "Game Over!";
+        gameOverText.SetActive(true);
         restart = true;
-        restartText.text = "Press 'R' for restart";
+        
     }
 }
