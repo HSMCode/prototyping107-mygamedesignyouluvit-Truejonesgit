@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject[] meteors; //make array and instantiate different rockmodels
+    public GameObject[] meteors; 
     public Vector3 spawnValues;
     public int hazardCount;
     public float spawnWait;
@@ -28,12 +28,17 @@ public class GameController : MonoBehaviour
        score = 0;
        UpdateScore();
        StartCoroutine (SpawnWaves());
+
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
     }
 
     private void LateUpdate()
     {
         if (restart == true)
-        { // Restart game with 'R' and run game again
+        { 
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene("SampleScene");
@@ -45,20 +50,24 @@ public class GameController : MonoBehaviour
     // Obstacles spawn in waves
     IEnumerator SpawnWaves()
     {
-        yield return new WaitForSeconds(startWait);
-        while(true)
-        {
-            for (int i = 0; i < hazardCount; i++)
+        
+        
+            yield return new WaitForSeconds(startWait);
+            while (true && gameOver == false)
             {
-                Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                Quaternion spawnRotation = Quaternion.identity;
-                Instantiate(meteors[Random.Range(0, meteors.Length)], spawnPosition, spawnRotation);
-                yield return new WaitForSeconds(spawnWait);
-            }
-            yield return new WaitForSeconds(waveWait);
+                for (int i = 0; i < hazardCount; i++)
+                {
+                    Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                    Quaternion spawnRotation = Quaternion.identity;
+                    Instantiate(meteors[Random.Range(0, meteors.Length)], spawnPosition, spawnRotation);
+                    yield return new WaitForSeconds(spawnWait);
+                }
+                yield return new WaitForSeconds(waveWait);
 
-            
-        }
+
+            }
+        
+        
     }
 
     // Add score

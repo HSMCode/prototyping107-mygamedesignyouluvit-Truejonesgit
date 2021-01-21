@@ -5,21 +5,23 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     public float speed;
-    private Rigidbody rb;
-    private GameController controller;
+    
+    private GameController controllerScript;
 
-    // Start is called before the first frame update
+    
+
+
     void Start()
     {
-
-        controller = GameObject.Find("GameController").GetComponent<GameController>();
-        GetComponent<Rigidbody>();
+        controllerScript = GameObject.Find("GameController").GetComponent<GameController>();
     }
 
-    // Move obstacles automatically
+    
+
+
     void Update()
     {
-        if (controller.gameOver == false)
+        if (controllerScript.gameOver == false)
         {
             transform.Translate(Vector3.down * Time.deltaTime * speed);
         }
